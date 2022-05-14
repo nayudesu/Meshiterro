@@ -1,17 +1,19 @@
 class PostImagesController < ApplicationController
   
   def new
-    @post_images = PostImage.new
+    @post_image = PostImage.new
   end
   
   def create
    @post_image = PostImage.new(post_image_params)
+   
     @post_image.user_id = current_user.id
     @post_image.save
     redirect_to post_images_path
   end
   
   def show
+    @post_image = PostImage.find(params[:id])
   end
   
   def index
@@ -19,10 +21,16 @@ class PostImagesController < ApplicationController
   
   end 
   
+  def destory
+    @post_image = PostImage.find (params[:id])
+    @post_image.destory
+    redirect_to post_images_path
+  end 
+  
   private
   
-    def post_image_params
+  def post_image_params
     params.require(:post_image).permit(:shop_name, :image, :caption)
-    end 
-  
+  end 
+
 end
